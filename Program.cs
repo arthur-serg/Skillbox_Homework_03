@@ -8,7 +8,7 @@ namespace Homework_03
 {
     class Program
     {
-        
+
         /// <summary>
         /// Main
         /// </summary>
@@ -56,10 +56,10 @@ namespace Homework_03
             Random rnd = new Random();
 
 
-            
+
             string playerOne; //никнейм
 
-            
+
             int minValue, maxValue; //минимальная и максимальная граница исходного числа.
             int userTryMinValue, userTryMaxValue; //минимальная (по умолчанию 1) и максимальная граница числа, вводимого игроком либо генерируемого ПК.
             int userTry; //число, которое будет вычитаться из исходного.
@@ -75,15 +75,15 @@ namespace Homework_03
                 Console.WriteLine("Enter max value of your Game number:");
                 maxValue = Convert.ToInt32(Console.ReadLine());
 
-                
+
                 userTryMinValue = 1;
                 Console.WriteLine("Enter max value of your TryNumber:");
                 userTryMaxValue = Convert.ToInt32(Console.ReadLine());
 
-                
-                int gameNumber = rnd.Next(minValue, maxValue+1); //генерируем случайное целое число из заданного интервала
 
-                Console.WriteLine($"Initialized Game number is: { gameNumber}"); 
+                int gameNumber = rnd.Next(minValue, maxValue + 1); //генерируем случайное целое число из заданного интервала
+
+                Console.WriteLine($"Initialized Game number is: { gameNumber}");
 
 
                 //До тех пор пока не выполнены условия конца игры (gameNumber != 0)
@@ -94,7 +94,7 @@ namespace Homework_03
                     userTry = Convert.ToInt32(Console.ReadLine());
 
                     //Проверка на неотрицательность gameNumber после хода.
-                    if (userTry >= userTryMinValue && userTry <= userTryMaxValue)
+                    if (userTry >= userTryMinValue && userTry <= userTryMaxValue && userTry<=gameNumber)
                     {
                         //Обновляем gameNumber
                         gameNumber = gameNumber - userTry;
@@ -120,14 +120,14 @@ namespace Homework_03
                     }
                     else
                     {
-                        Console.WriteLine("Incorrect number");
+                        Console.WriteLine("Incorrect number! You've lost your turn!");
                     }
                     Console.WriteLine($"After your turn Game Number is {gameNumber}");
 
 
-                    
+
                     //ПК генерирует вычитаемое число из заданного отрезка
-                    int pcTry = rnd.Next(userTryMinValue, userTryMaxValue+1);
+                    int pcTry = rnd.Next(userTryMinValue, userTryMaxValue + 1);
 
                     //Проверка на неотрицательность gameNumber после хода ПК. Если сгенерировано число, заведомо большее чем gameNumber, то генерим его снова.
 
@@ -135,7 +135,7 @@ namespace Homework_03
                     {
                         pcTry = rnd.Next(userTryMinValue, userTryMaxValue + 1);
                     }
-                    
+
                     {
                         while (pcTry > 0 && pcTry <= gameNumber)
                         {
@@ -166,7 +166,7 @@ namespace Homework_03
                             else break;
                         }
                     }
-                    
+
                     Console.WriteLine($"After AI's turn Game Number is: {gameNumber}");
                 }
             }
