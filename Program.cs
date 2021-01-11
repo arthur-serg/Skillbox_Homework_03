@@ -83,12 +83,13 @@ namespace Homework_03
                 
                 int gameNumber = rnd.Next(minValue, maxValue+1); //генерируем случайное целое число из заданного интервала
 
-                Console.WriteLine($"After your turn Game number is: { gameNumber}"); 
+                Console.WriteLine($"Initialized Game number is: { gameNumber}"); 
 
 
                 //До тех пор пока не выполнены условия конца игры (gameNumber != 0)
                 while (gameNumber > 0)
                 {
+                    Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine($"Player {playerOne} enter your integer TryNumber in range from {userTryMinValue} to {userTryMaxValue}: ");
                     userTry = Convert.ToInt32(Console.ReadLine());
 
@@ -101,6 +102,7 @@ namespace Homework_03
                         //Конец игры, игрок победил. Спрашиваем о повторной игре.Если условия победы не выполнены, то передаём ход ПК.
                         if (gameNumber == 0)
                         {
+                            Console.ForegroundColor = ConsoleColor.Green;
                             Console.WriteLine($"{playerOne} is a winner! Wanna play again? Y/N");
                             {
                                 string revengeAnswer = Console.ReadLine();
@@ -120,44 +122,52 @@ namespace Homework_03
                     {
                         Console.WriteLine("Incorrect number");
                     }
-                    Console.WriteLine($"After AI's turn Game Number is {gameNumber}");
+                    Console.WriteLine($"After your turn Game Number is {gameNumber}");
 
+
+                    
                     //ПК генерирует вычитаемое число из заданного отрезка
                     int pcTry = rnd.Next(userTryMinValue, userTryMaxValue+1);
 
                     //Проверка на неотрицательность gameNumber после хода ПК.
 
-
-                    //ПРОБЛЕМА: если ПК генерирует число, заведомо большее чем gameNumber, то его ход пропускается и сразу передается игроку.
-
-                    while (pcTry > 0 && pcTry <= gameNumber)
+                    while (pcTry > gameNumber)
                     {
-                        Console.WriteLine($"AI tries with: {pcTry}");
-
-                        //Обновляем gameNumber
-                        gameNumber = gameNumber - pcTry;
-
-                        //Конец игры, игрок проиграл. Спрашиваем о повторной игре.Если условия победы не выполнены, то передаём ход игроку.
-                        if (gameNumber == 0)
-                        {
-                            Console.WriteLine($"Loser! Wanna play again? Y/N");
-                            {
-                                string revengeAnswer = Console.ReadLine();
-                                if (revengeAnswer == "Y" || revengeAnswer == "y")
-                                {
-                                    tryAgain = true;
-                                }
-                                if (revengeAnswer == "N" || revengeAnswer == "n")
-                                {
-                                    tryAgain = false;
-                                }
-                            }
-                            break;
-                        }
-                        else break;
-
+                        pcTry = rnd.Next(userTryMinValue, userTryMaxValue + 1);
                     }
-                    Console.WriteLine($"GameNumber is {gameNumber}");
+                    
+                    {
+                        while (pcTry > 0 && pcTry <= gameNumber)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Yellow;
+                            Console.WriteLine($"AI tries with: {pcTry}");
+
+                            //Обновляем gameNumber
+                            gameNumber = gameNumber - pcTry;
+
+                            //Конец игры, игрок проиграл. Спрашиваем о повторной игре.Если условия победы не выполнены, то передаём ход игроку.
+                            if (gameNumber == 0)
+                            {
+                                Console.ForegroundColor = ConsoleColor.Red;
+                                Console.WriteLine($"Loser! Wanna play again? Y/N");
+                                {
+                                    string revengeAnswer = Console.ReadLine();
+                                    if (revengeAnswer == "Y" || revengeAnswer == "y")
+                                    {
+                                        tryAgain = true;
+                                    }
+                                    if (revengeAnswer == "N" || revengeAnswer == "n")
+                                    {
+                                        tryAgain = false;
+                                    }
+                                }
+                                break;
+                            }
+                            else break;
+                        }
+                    }
+                    
+                    Console.WriteLine($"After AI's turn Game Number is: {gameNumber}");
                 }
             }
         }
