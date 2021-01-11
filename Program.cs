@@ -21,6 +21,8 @@ namespace Homework_03
             // Выигрывает тот игрок, после чьего хода gameNumber обратилась в ноль.
             // Игра поздравляет победителя, предлагая сыграть реванш
             // 
+
+
             // * Бонус:
             // Подумать над возможностью реализации разных уровней сложности.
             // В качестве уровней сложности может выступать настраиваемое, в начале игры,
@@ -50,60 +52,85 @@ namespace Homework_03
             string playerOne, playerTwo;
             int minValue, maxValue;
             int userTry;
+            bool tryAgain = true;
 
             Console.WriteLine("Player 1, enter your name:");
             playerOne = Console.ReadLine();
             Console.WriteLine("Player 2, enter your name: ");
             playerTwo = Console.ReadLine();
-            Console.WriteLine("Enter min value of you number:");
-            minValue = Convert.ToInt32(Console.ReadLine());
-            Console.WriteLine("Enter max value of your number:");
-            maxValue = Convert.ToInt32(Console.ReadLine());
-
-            int gameNumber = rnd.Next(minValue, maxValue);
-
-            Console.WriteLine($"Game number is: { gameNumber}");
-            Console.ReadKey();
+            
 
 
-            while (gameNumber != 0)
+            while (tryAgain)
             {
-                Console.WriteLine($"Player {playerOne} enter your TryNumber (in range 1 to 4): ");
-                userTry = Convert.ToInt32(Console.ReadLine());
-                if (userTry == 1 || userTry == 2 || userTry == 3 || userTry == 4)
-                {
-                    gameNumber = gameNumber - userTry;
-                    if (gameNumber == 0)
-                    {
-                        Console.WriteLine($"{playerOne} is a winner!");
-                        Console.ReadKey();
-                        break;
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("Incorrect number");
-                }
-                Console.WriteLine($"gameNumber is {gameNumber}");
-                
-                Console.WriteLine($"Player {playerTwo} enter your TryNumber (in range 1 to 4): ");
-                userTry = Convert.ToInt32(Console.ReadLine());
-                if (userTry == 1 || userTry == 2 || userTry == 3 || userTry == 4)
-                {
-                    gameNumber = gameNumber - userTry;
-                    if (gameNumber == 0)
-                    {
-                        Console.WriteLine($"{playerTwo} is a winner!");
-                        Console.ReadKey();
-                        break;
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("Incorrect number");
-                }
-                Console.WriteLine($"gameNumber is {gameNumber}");
+                Console.WriteLine("Enter min value of you Game number:");
+                minValue = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine("Enter max value of your Game number:");
+                maxValue = Convert.ToInt32(Console.ReadLine());
 
+                int gameNumber = rnd.Next(minValue, maxValue);
+
+                Console.WriteLine($"Game number is: { gameNumber}");
+
+                while (gameNumber > 0)
+                {
+                    Console.WriteLine($"Player {playerOne} enter your TryNumber (in range 1 to 4): ");
+                    userTry = Convert.ToInt32(Console.ReadLine());
+                    if (userTry == 1 || userTry == 2 || userTry == 3 || userTry == 4)
+                    {
+                        gameNumber = gameNumber - userTry;
+                        if (gameNumber == 0)
+                        {
+                            Console.WriteLine($"{playerOne} is a winner! Wanna play again? Y/N");
+                            {
+                                string revengeAnswer = Console.ReadLine();
+                                if (revengeAnswer == "Y" || revengeAnswer == "y")
+                                {
+                                    tryAgain = true;
+                                }
+                                if (revengeAnswer == "N" || revengeAnswer == "n")
+                                {
+                                    tryAgain = false;
+                                }
+                            }
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Incorrect number");
+                    }
+                    Console.WriteLine($"gameNumber is {gameNumber}");
+
+                    Console.WriteLine($"Player {playerTwo} enter your TryNumber (in range 1 to 4): ");
+                    userTry = Convert.ToInt32(Console.ReadLine());
+                    if (userTry == 1 || userTry == 2 || userTry == 3 || userTry == 4)
+                    {
+                        gameNumber = gameNumber - userTry;
+                        if (gameNumber == 0)
+                        {
+                            Console.WriteLine($"{playerTwo} is a winner! Wanna play again? Y/N");
+                            {
+                                string revengeAnswer = Console.ReadLine();
+                                if (revengeAnswer == "Y" || revengeAnswer =="y")
+                                {
+                                    tryAgain = true;
+                                }
+                                if (revengeAnswer == "N" || revengeAnswer == "n")
+                                {
+                                    tryAgain = false;
+                                }
+                            }
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Incorrect number");
+                    }
+                    Console.WriteLine($"gameNumber is {gameNumber}");
+
+                }
             }
         }
     }
