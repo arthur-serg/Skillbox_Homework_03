@@ -98,6 +98,7 @@ namespace Homework_03
                     }
                     else
                     {
+                        
                         Console.WriteLine("Incorrect number");
                     }
                     Console.WriteLine($"gameNumber is {gameNumber}");
