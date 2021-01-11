@@ -129,7 +129,7 @@ namespace Homework_03
                     //ПК генерирует вычитаемое число из заданного отрезка
                     int pcTry = rnd.Next(userTryMinValue, userTryMaxValue+1);
 
-                    //Проверка на неотрицательность gameNumber после хода ПК.
+                    //Проверка на неотрицательность gameNumber после хода ПК. Если сгенерировано число, заведомо большее чем gameNumber, то генерим его снова.
 
                     while (pcTry > gameNumber)
                     {
