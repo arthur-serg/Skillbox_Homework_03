@@ -8,6 +8,11 @@ namespace Homework_03
 {
     class Program
     {
+        
+        /// <summary>
+        /// Main
+        /// </summary>
+        /// <param name="args"></param>
         static void Main(string[] args)
         {
             // Написать игру, в которою могут играть два игрока.
@@ -26,7 +31,7 @@ namespace Homework_03
             // * Бонус:
             // Подумать над возможностью реализации разных уровней сложности.
             // В качестве уровней сложности может выступать настраиваемое, в начале игры,
-            // значение userTry или указание большего количества игроков (3, 4, 5...)
+            // значение userTry.
 
             // *** Сложный бонус
             // Подумать над возможностью реализации однопользовательской игры
@@ -49,17 +54,19 @@ namespace Homework_03
             // User2 победил!
 
             Random rnd = new Random();
-            string playerOne, playerTwo;
-            int minValue, maxValue;
-            int userTry;
-            bool tryAgain = true;
 
-            Console.WriteLine("Player 1, enter your name:");
-            playerOne = Console.ReadLine();
-            Console.WriteLine("Player 2, enter your name: ");
-            playerTwo = Console.ReadLine();
+
             
+            string playerOne; //никнейм
 
+            
+            int minValue, maxValue; //минимальная и максимальная граница исходного числа.
+            int userTryMinValue, userTryMaxValue; //минимальная (по умолчанию 1) и максимальная граница числа, вводимого игроком либо генерируемого ПК.
+            int userTry; //число, которое будет вычитаться из исходного.
+            bool tryAgain = true; //флаг для запуска игры заново.
+
+            Console.WriteLine("Please enter your name:");
+            playerOne = Console.ReadLine();
 
             while (tryAgain)
             {
@@ -68,17 +75,30 @@ namespace Homework_03
                 Console.WriteLine("Enter max value of your Game number:");
                 maxValue = Convert.ToInt32(Console.ReadLine());
 
-                int gameNumber = rnd.Next(minValue, maxValue);
+                
+                userTryMinValue = 1;
+                Console.WriteLine("Enter max value of your TryNumber:");
+                userTryMaxValue = Convert.ToInt32(Console.ReadLine());
 
-                Console.WriteLine($"Game number is: { gameNumber}");
+                
+                int gameNumber = rnd.Next(minValue, maxValue+1); //генерируем случайное целое число из заданного интервала
 
+                Console.WriteLine($"After your turn Game number is: { gameNumber}"); 
+
+
+                //До тех пор пока не выполнены условия конца игры (gameNumber != 0)
                 while (gameNumber > 0)
                 {
-                    Console.WriteLine($"Player {playerOne} enter your TryNumber (in range 1 to 4): ");
+                    Console.WriteLine($"Player {playerOne} enter your integer TryNumber in range from {userTryMinValue} to {userTryMaxValue}: ");
                     userTry = Convert.ToInt32(Console.ReadLine());
-                    if (userTry == 1 || userTry == 2 || userTry == 3 || userTry == 4)
+
+                    //Проверка на неотрицательность gameNumber после хода.
+                    if (userTry >= userTryMinValue && userTry <= userTryMaxValue)
                     {
+                        //Обновляем gameNumber
                         gameNumber = gameNumber - userTry;
+
+                        //Конец игры, игрок победил. Спрашиваем о повторной игре.Если условия победы не выполнены, то передаём ход ПК.
                         if (gameNumber == 0)
                         {
                             Console.WriteLine($"{playerOne} is a winner! Wanna play again? Y/N");
@@ -98,22 +118,32 @@ namespace Homework_03
                     }
                     else
                     {
-                        
                         Console.WriteLine("Incorrect number");
                     }
-                    Console.WriteLine($"gameNumber is {gameNumber}");
+                    Console.WriteLine($"After AI's turn Game Number is {gameNumber}");
 
-                    Console.WriteLine($"Player {playerTwo} enter your TryNumber (in range 1 to 4): ");
-                    userTry = Convert.ToInt32(Console.ReadLine());
-                    if (userTry == 1 || userTry == 2 || userTry == 3 || userTry == 4)
+                    //ПК генерирует вычитаемое число из заданного отрезка
+                    int pcTry = rnd.Next(userTryMinValue, userTryMaxValue+1);
+
+                    //Проверка на неотрицательность gameNumber после хода ПК.
+
+
+                    //ПРОБЛЕМА: если ПК генерирует число, заведомо большее чем gameNumber, то его ход пропускается и сразу передается игроку.
+
+                    while (pcTry > 0 && pcTry <= gameNumber)
                     {
-                        gameNumber = gameNumber - userTry;
+                        Console.WriteLine($"AI tries with: {pcTry}");
+
+                        //Обновляем gameNumber
+                        gameNumber = gameNumber - pcTry;
+
+                        //Конец игры, игрок проиграл. Спрашиваем о повторной игре.Если условия победы не выполнены, то передаём ход игроку.
                         if (gameNumber == 0)
                         {
-                            Console.WriteLine($"{playerTwo} is a winner! Wanna play again? Y/N");
+                            Console.WriteLine($"Loser! Wanna play again? Y/N");
                             {
                                 string revengeAnswer = Console.ReadLine();
-                                if (revengeAnswer == "Y" || revengeAnswer =="y")
+                                if (revengeAnswer == "Y" || revengeAnswer == "y")
                                 {
                                     tryAgain = true;
                                 }
@@ -124,13 +154,10 @@ namespace Homework_03
                             }
                             break;
                         }
-                    }
-                    else
-                    {
-                        Console.WriteLine("Incorrect number");
-                    }
-                    Console.WriteLine($"gameNumber is {gameNumber}");
+                        else break;
 
+                    }
+                    Console.WriteLine($"GameNumber is {gameNumber}");
                 }
             }
         }
